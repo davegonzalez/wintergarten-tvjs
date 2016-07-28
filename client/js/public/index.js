@@ -21815,22 +21815,36 @@ var _atvjs2 = _interopRequireDefault(_atvjs);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _atvjs2.default.Page.create({
-    name: 'home',
-    // use a template function from your favourite templating engine
-    // or pass a raw template function
-    template: function template(data) {
-        return '<document>\n                    <alertTemplate>\n                        <title>' + data.title + '</title>\n                        <description>' + data.description + '</description>\n                    </alertTemplate>\n                </document>';
-    },
+  name: 'home',
+  // use a template function from your favourite templating engine
+  // or pass a raw template function
+  template: function template(data) {
+    return '<document>\n                  <alertTemplate>\n                    <title>' + data[0].title + '</title>\n                    <img src="' + data[0].thumbnail.large + '" width="1280" height="720"/>\n                  </alertTemplate>\n                </document>';
+  },
 
-    // pass some raw data to be applied
-    // or a data function that returns the data
-    data: {
-        title: 'Now this is working yeah?',
-        description: 'This is my super awesome homepage created using ATVjs.'
-    }
+  // pass some raw data to be applied
+  // or a data function that returns the data
+  ready: function ready(options, resolve, reject) {
+    _atvjs2.default.Ajax.get('http://api.crystal.dev/videos', {
+      headers: {
+        Authorization: 'Basic ' + btoa('bBwUWJzz7JkwpjVEu1nVL2cE3V9uzmXc')
+      },
+      data: JSON.stringify({ query: 'term' })
+    }).then(function (xhr) {
+      var response = xhr.response._embedded.videos;
+      resolve(response);
+    }, function (xhr) {
+      // xhr failed
+      var response = xhr.response;
+      reject({
+        status: xhr.status,
+        message: response.message
+      });
+    });
+  }
 });
 
 // later in your application you can do something like below to navigate to the page
 _atvjs2.default.Navigation.navigate('home');
-}).call(this,require("pBGvAp"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_ffdc2cc1.js","/")
+}).call(this,require("pBGvAp"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_53587496.js","/")
 },{"atvjs":1,"buffer":3,"pBGvAp":5}]},{},[6])
